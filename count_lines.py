@@ -15,7 +15,7 @@ def extract_functions(file_path):
         contents = f.readlines()
         for line in contents:
             line_ctr += 1
-            if re.search("^((([a-zA-Z0-9_]* )?[a-zA-Z0-9_]+)|([a-zA-Z0-9_ ]*[a-zA-Z0-9_]+::[a-zA-Z0-9_]+)) *\([A-Za-z0-9_ ,&(\*)]*(\) *{?)?\r?\n$", line.decode()):
+            if re.search("^(((([a-zA-Z0-9_&:(\*)]+ )*)?[a-zA-Z0-9_+-=<>]+)|([a-zA-Z0-9_&: ]*[a-zA-Z0-9_+-=<>]+::[a-zA-Z0-9_]+)) *\([A-Za-z0-9_ ,&(\*):]*(\) *{?)?( */.*)?\r?\n$", line.decode()):
                 func_started = True
                 print(line)
                 func_name = re.search("([A-Za-z0-9_]+ )*[A-Za-z0-9_]+(\(|:)", line.decode()).string.split('(')[0].split(' ')[-1] #re.findall("[a-z_]+ ?\(.*\) {\r\n$", line.decode())[0].split('(')[0]
@@ -34,7 +34,7 @@ def extract_functions(file_path):
                     with open(
                         os.path.join(folder_path, "tmp" , os.path.splitext(os.path.basename(file_path))[0]+ '---' + func_name + ".cpp"), "wb"
                     ) as tmp_file:
-                        print(tmp_file.name)
+                        # print(tmp_file.name)
                         tmp_file.writelines(contents[start_line : end_line + 1])
 
 
